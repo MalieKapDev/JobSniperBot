@@ -1,0 +1,22 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Pytest cache
+.pytest_cache/
+
+# VSCode & Qodo
+.vscode/
+.qodo/
+
+# Environment
+venv/
+.env
+
+# Logs
+logs/
+*.log
+
+# DB 
+jobsniper.db
