@@ -25,7 +25,8 @@ def create_tables():
             date_posted TEXT,
             date_scraped TEXT,
             status TEXT DEFAULT 'new',
-            match_score REAL
+            match_score REAL,
+            summary TEXT
         )
     """)
 
@@ -58,8 +59,8 @@ def insert_job(job_details):
             INSERT INTO jobs (
                 job_title, company, description, location, type,
                 salary, url, source, date_posted, date_scraped,
-                status, match_score
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                status, match_score, summary
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', job_details)
         print(f"Inserted job: {job_details[0]} at {job_details[1]}")
 

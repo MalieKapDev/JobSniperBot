@@ -1,3 +1,5 @@
+from utils.gpt_matcher import get_match_score, get_job_summary
+
 from database.database import create_tables, insert_job
 create_tables()
 
@@ -79,6 +81,8 @@ def extract_job_details(post):
 url = "https://weworkremotely.com/remote-jobs/search?term=front+end+developer"
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
+saved_jobs = 0
+
 try:
     response = requests.get(url, headers=headers)
     response.raise_for_status()
@@ -96,14 +100,44 @@ try:
 
                 if job_details:
                     try:
-                        insert_job(job_details)
-                        logging.info(f"Added job: {job_details[0]} at {job_details[1]}")
+                        job_description = job_details[3]  # index 3 = description
+                        match_score = get_match_score(job_description)
+                        summary = get_job_summary(job_description)
+
+                        if match_score >= 60.0:
+                            # Prepare job tuple to match insert_job() structure
+                            job_data = (
+                                job_details[0],  # title
+                                job_details[1],  # company
+                                job_details[3],  # description
+                                job_details[7],  # location
+                                job_details[2],  # job_type
+                                job_details[4],  # salary
+                                job_details[6],  # url
+                                "WeWorkRemotely",  # source
+                                job_details[8],  # date_posted
+                                None,            # date_scraped (optional)
+                                "new",           # application_status
+                                match_score,      # match score
+                                summary
+                            )
+
+                            insert_job(job_data)
+                            saved_jobs += 1
+                            logging.info(f"✅ Added job: {job_data[0]} at {job_data[1]} (Match: {match_score}%)")
+                        else:
+                            logging.info(f"❌ Skipped job: {job_details[0]} at {job_details[1]} (Match: {match_score}%)")
+
                     except Exception as e:
                         logging.error(f"Error inserting job into database: {e}")
                         script_status = "failed"
     else:
         logging.warning("No job sections found on the page.")
         script_status = "failed"
+
+except requests.exceptions.RequestException as e:
+    logging.error(f"Request error: {e}")
+    script_status = "failed"     
 
 except requests.exceptions.RequestException as e:
     logging.error(f"Request error: {e}")
@@ -114,6 +148,8 @@ except Exception as e:
     script_status = "failed"
 
 if script_status == "success":
-    send_email('Job Scraping Completed Successfully', 'The job scraping script has completed successfully and added jobs to the SQLite database.')
+    send_email('Job Scraping Completed Successfully',
+        f'The job scraping script has completed successfully and added {saved_jobs} job(s) with a match score ≥ 60% to the SQLite database.')
 else:
-    send_email('Job Scraping Script Failed', 'There was an error while running the job scraping script. Check the logs for more details.')
+    send_email('Job Scraping Script Failed',
+        'There was an error while running the job scraping script. Check the logs for more details.')
