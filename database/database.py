@@ -45,11 +45,18 @@ def create_tables():
     conn.close()
 
 def insert_job(job_details):
+    match_score = job_details[11]
+
+    # Skip insert if match score is too low
+    if match_score < 0.6:
+        print(f"Not inserted: Match score {match_score} is too low for job: {job_details[0]}")
+        return
+
     conn = connect_db()
     c = conn.cursor()
 
     # Check for duplicate based on the URL
-    c.execute('SELECT id FROM jobs WHERE url = ?', (job_details[6],))  # url index is 6 now
+    c.execute('SELECT id FROM jobs WHERE url = ?', (job_details[6],))
     existing_job = c.fetchone()
 
     if existing_job:

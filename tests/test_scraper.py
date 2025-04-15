@@ -2,7 +2,7 @@ import sqlite3
 import pytest
 from database.database import create_tables, insert_job, get_jobs_by_filter, log_error
 from scraper.weworkremotely import extract_job_details
-from utils.gpt_matcher import get_match_score
+from utils.matcher import get_match_score, get_job_summary
 
 @pytest.fixture(scope="function")
 def setup_database():
@@ -55,10 +55,21 @@ def test_insert_job(db_connection):
     c.close()
 
 def test_extract_job_details_summary():
-    """Test job summary extraction from job details."""
-    job_description = "We are looking for a Senior React Developer to join our growing team. You will be responsible for developing and maintaining user-facing features."
-    summary = extract_job_details(job_description)
-    assert summary == "Senior React Developer responsible for user-facing features.", "Summary extraction mismatch"
+    job_description = (
+        "We are looking for a Junior Frontend Developer to join our growing team. "
+        "You will assist in developing and maintaining user interfaces. "
+        "This is a remote-first role with growth potential."
+    )
+    expected = (
+        "We are looking for a Junior Frontend Developer to join our growing team. "
+        "You will assist in developing and maintaining user interfaces."
+    )
+    summary = get_job_summary(job_description)
+
+    print(f"EXPECTED:\n{expected}\n")
+    print(f"GOT:\n{summary}\n")
+
+    assert summary == expected, "Summary extraction mismatch"
 
 def test_log_error(setup_database):
     """Test logging an error."""
@@ -76,22 +87,27 @@ def test_log_error(setup_database):
 
 def test_job_with_low_match_score(setup_database):
     """Test job insertion with a low match score."""
+    title = "Junior Frontend Developer"
+    description = "This job is mostly basic admin and support tasks."
+    match_score = get_match_score(f"{title} {description}")
+    summary = get_job_summary(description)
+
     job_details = (
-        "Junior Frontend Developer",  # job_title
-        "Company XYZ",                # company
-        "Basic frontend tasks",       # description
-        "USA",                        # location
-        "Remote",                     # type
-        "$40k",                       # salary
-        "http://lowmatch.job",        # url
-        "Indeed",                     # source
-        "2025-04-11",                 # date_posted
-        "2025-04-11",                 # date_scraped
-        "new",                        # status
-        50.0,                         # match_score
-        "Basic Front-End Developer position."  # summary
+        title,
+        "Company XYZ",
+        description,
+        "USA",
+        "Remote",
+        "$40k",
+        "http://lowmatch.job",
+        "Indeed",
+        "2025-04-11",
+        "2025-04-11",
+        "new",
+        match_score,
+        summary
     )
-    
+
     insert_job(job_details)
 
     conn = sqlite3.connect("jobsniper.db")
@@ -100,4 +116,5 @@ def test_job_with_low_match_score(setup_database):
     job = c.fetchone()
     conn.close()
 
+    assert match_score < 60.0, "Match score should be below threshold"
     assert job is None, "Job with low match score should not be inserted"

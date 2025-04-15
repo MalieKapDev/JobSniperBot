@@ -1,48 +1,45 @@
-from utils.gpt_matcher import get_match_score, get_job_summary
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+from utils.matcher import get_match_score, get_job_summary
+from utils.emailer import send_email, send_job_match_email
 from database.database import create_tables, insert_job
-create_tables()
 
 import logging
-import os
-import smtplib
 import requests
-from dotenv import load_dotenv
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+import time
+import random
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
-# Set up logging
-logging.basicConfig(filename="scraper_log.txt", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+import nltk
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
 
-# Load environment variables from .env file
-load_dotenv()
+create_tables()
 
-# Access the variables
-email = os.getenv('EMAIL_USER')
-email_password = os.getenv('EMAIL_PASSWORD')
+# Logging
+logging.basicConfig(
+    filename="logs/scraper_log.txt",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+logging.getLogger('').addHandler(console)
 
-def send_email(subject, body):
-    try:
-        msg = MIMEMultipart()
-        msg['From'] = email
-        msg['To'] = email
-        msg['Subject'] = subject
-        msg.attach(MIMEText(body, 'plain'))
+# Config
+url = "https://weworkremotely.com/remote-jobs/search?term=front+end+developer"
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Referer": "https://www.google.com"
+}
 
-        with smtplib.SMTP('smtp.gmail.com', 587) as server:
-            server.starttls()
-            server.login(email, email_password)
-            server.sendmail(msg['From'], msg['To'], msg.as_string())
-
-        logging.info("Notification email sent successfully.")
-    except Exception as e:
-        logging.error(f"Error sending email: {e}")
-
-script_status = "success"
-
-def extract_job_details(post):
+def extract_job_details(post, base_url):
     try:
         title_tag = post.find("h4", class_="new-listing__header__title")
         job_title = title_tag.text.strip() if title_tag else "Not Listed"
@@ -61,7 +58,7 @@ def extract_job_details(post):
             job_type = "On-Site"
 
         link_tag = post.find("a", href=True)
-        job_link = urljoin(url, link_tag['href']) if link_tag else "No link"
+        job_link = urljoin(base_url, link_tag['href']) if link_tag else "No link"
 
         salary_tag = post.find("span", class_="salary")
         salary = salary_tag.text.strip() if salary_tag else "Not Listed"
@@ -78,16 +75,25 @@ def extract_job_details(post):
         logging.error(f"Error extracting job details: {e}")
         return None
 
-url = "https://weworkremotely.com/remote-jobs/search?term=front+end+developer"
-headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+# Request with retry
+def fetch_page(url, retries=3, delay=3):
+    for i in range(retries):
+        try:
+            response = requests.get(url, headers=headers, timeout=10)
+            response.raise_for_status()
+            return response
+        except requests.exceptions.RequestException as e:
+            logging.warning(f"Attempt {i+1}/{retries} failed: {e}")
+            time.sleep(delay + random.uniform(1, 3))
+    return None
 
+# Scrape logic
 saved_jobs = 0
+script_status = "success"
 
-try:
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()
-    logging.info("Request successful.")
+response = fetch_page(url)
 
+if response:
     soup = BeautifulSoup(response.text, "html.parser")
     job_sections = soup.find_all("section", class_="jobs")
 
@@ -96,60 +102,71 @@ try:
             job_posts = section.find_all("li", class_=lambda x: x != "view-all")
 
             for post in job_posts:
-                job_details = extract_job_details(post)
+                try:
+                    job_details = extract_job_details(post, url)
+                    if not job_details:
+                        continue
 
-                if job_details:
-                    try:
-                        job_description = job_details[3]  # index 3 = description
-                        match_score = get_match_score(job_description)
-                        summary = get_job_summary(job_description)
+                    job_text = f"{job_details[0]} {job_details[3]}"
+                    match_score = get_match_score(job_text)
+                    summary = get_job_summary(job_text)
 
-                        if match_score >= 60.0:
-                            # Prepare job tuple to match insert_job() structure
-                            job_data = (
-                                job_details[0],  # title
-                                job_details[1],  # company
-                                job_details[3],  # description
-                                job_details[7],  # location
-                                job_details[2],  # job_type
-                                job_details[4],  # salary
-                                job_details[6],  # url
-                                "WeWorkRemotely",  # source
-                                job_details[8],  # date_posted
-                                None,            # date_scraped (optional)
-                                "new",           # application_status
-                                match_score,      # match score
-                                summary
-                            )
+                    if match_score >= 60.0:
+                        job_data = (
+                            job_details[0],  # title
+                            job_details[1],  # company
+                            job_details[3],  # description
+                            job_details[7],  # location
+                            job_details[2],  # type
+                            job_details[4],  # salary
+                            job_details[6],  # url
+                            "WeWorkRemotely",  # source
+                            job_details[8],  # date_posted
+                            None,             # date_scraped
+                            "new",            # status
+                            match_score,
+                            summary
+                        )
 
-                            insert_job(job_data)
-                            saved_jobs += 1
-                            logging.info(f"✅ Added job: {job_data[0]} at {job_data[1]} (Match: {match_score}%)")
-                        else:
-                            logging.info(f"❌ Skipped job: {job_details[0]} at {job_details[1]} (Match: {match_score}%)")
+                        job_email_data = {
+                            "title": job_details[0],
+                            "company": job_details[1],
+                            "location": job_details[7],
+                            "score": round(match_score, 2),
+                            "summary": summary,
+                            "url": job_details[6],
+                        }
 
-                    except Exception as e:
-                        logging.error(f"Error inserting job into database: {e}")
-                        script_status = "failed"
+                        send_job_match_email(job_email_data)
+                        insert_job(job_data)
+                        saved_jobs += 1
+                        logging.info(f"✅ Inserted: {job_details[0]} at {job_details[1]} ({match_score:.1f}%)")
+
+                    else:
+                        logging.info(f"❌ Skipped: {job_details[0]} at {job_details[1]} ({match_score:.1f}%)")
+
+                    # Random delay between job posts
+                    time.sleep(random.uniform(1, 2.5))
+
+                except Exception as e:
+                    logging.error(f"❌ Error processing job post: {e}")
+                    script_status = "failed"
+
     else:
-        logging.warning("No job sections found on the page.")
+        logging.warning("No job sections found.")
         script_status = "failed"
-
-except requests.exceptions.RequestException as e:
-    logging.error(f"Request error: {e}")
-    script_status = "failed"     
-
-except requests.exceptions.RequestException as e:
-    logging.error(f"Request error: {e}")
-    script_status = "failed"
-
-except Exception as e:
-    logging.error(f"General error: {e}")
-    script_status = "failed"
-
-if script_status == "success":
-    send_email('Job Scraping Completed Successfully',
-        f'The job scraping script has completed successfully and added {saved_jobs} job(s) with a match score ≥ 60% to the SQLite database.')
 else:
-    send_email('Job Scraping Script Failed',
-        'There was an error while running the job scraping script. Check the logs for more details.')
+    logging.error("Final failure: could not retrieve page after retries.")
+    script_status = "failed"
+
+# Final status
+if script_status == "success":
+    send_email(
+        '✅ Job Scraping Completed',
+        f'Successfully added {saved_jobs} job(s) with match score ≥ 60%.'
+    )
+else:
+    send_email(
+        '❌ Job Scraping Failed',
+        'There was an error running the scraper. Please check logs.'
+    )

@@ -1,11 +1,147 @@
 USER_PROFILE = {
-  "title": "Junior Developer",
-  "summary": "I am an aspiring full-stack developer with a strong foundation in front-end technologies (HTML, CSS, JavaScript, React) and growing knowledge of backend development (Node.js, Express, APIs). Passionate about building efficient, user-friendly applications and eager to expand into full-stack development. Looking for an opportunity to apply my skills while learning from experienced mentors.",
-  "experience": ["Vape Junction. Jan 2024 - Present. Sales Associate. Pretoria, Gauteng. Educated customers on the latest vape products and trends, resulting in a 20 percent increase in sales of advanced mods. Utilized product knowledge to recommend customized starter kits to over 1000 customers, achieving a 90 percent satisfaction rate. Created a welcoming and inclusive environment for all customers, leading to a 30 percent increase in repeat business.", "Infinity Times Infinity Productions. Oct 2023 - Dec 2023. Videographer and Editor. Pretoria, Gauteng. Edited and produced engaging highlight videos and full-length films for each wedding, resulting in a 95 percent satisfaction rate from clients. Captured key moments and emotions during ceremonies and receptions using 3+ multi-camera setups, leading to a 20 percent increase in referral business. Managed post-production process efficiently to deliver final wedding videos within a tight deadline of the event, exceeding client expectations and generating positive reviews.", "PUC Marketing. Jan 2021 - Aug 2023. Office Administration/ Data Analyst / Personal Assistant. Various Locations Across South Africa. Implemented new data systems and document management processes, facilitating the analysis of data for presentation to management, resulting in a 10 percent increase in identifying areas of improvement and growth. Supported a team including 5 National Managers, 5 Regional Managers, 22 Representatives, and over 200 Merchandisers by handling their data effectively, resulting in improved communication and collaboration across the organization. Assisted the Director as a personal assistant by managing email correspondence, booking international travel arrangements, scheduling meetings efficiently, and transcribing meeting minutes accurately. Managed payroll data, streamlining administrative processes to improve efficiency by 15 percent and reduce payroll errors by 20 percent. Developed strong analytical skills in handling HR-related data, improving payroll processing workflows.", "Visual Impact. Jan 2020 - Feb 2020. Rentals Internship. Johannesburg, Gauteng. Worked on pulling film equipment from the gear house and prepping for pick up according to rental documents completed by clients. Completed competency tests with clients upon pick up of gear, to ensure they understood how to use it. Tasked with assembling, cleaning, and tracking any damage to returned gear. Fixing damaged gear or sending it to the appropriate department for fixing. Before storing in the gear house."],
-  "education": ["Harvard edX. In Progress. Harvard edX - CS50: Introduction to Computer Science Certificate. Currently completing Harvard University's renowned introductory course covering fundamentals of computer science, including algorithms, data structures, web development, and problem-solving in C, Python, and SQL.", "freeCodeCamp. Aug 2024. Data Visualization Certification. Developing skills in building interactive charts, graphs, and maps with D3.js, JSON, and APIs to visualize data.", "SheCodes. Sep 2024. SheCodes React - React Development Certificate. Focused on mastering React to build fully functional web applications using this high-demand framework. These courses strengthened my ability to build interactive applications using JavaScript, React, and API integrations, skills I am now applying to backend learning.", "freeCodeCamp. May 2024. Front End Development Libraries Certification. Gained expertise in Bootstrap, Sass, and building Single Page Applications (SPAs) with React and Redux.", "SheCodes. Apr 2024. SheCodes Plus - Web Development Certificate. Advanced training in page animations, API integration, and code management using ES6 functions.", "freeCodeCamp. Mar 2024. JavaScript Algorithms and Data Structures Certification. Mastered advanced HTML5, CSS3, and ES6 techniques, including DOM manipulation and regular expressions.", "SheCodes. Feb 2024. SheCodes Basics - Introduction to Coding Certificate. Introductory training in HTML5, CSS3, ES6, and Visual Studio Code.", "freeCodeCamp. Jan 2024. Responsive Web Development Certification. Built a solid foundation in HTML5 and CSS3 for responsive web design.", "Type Whizz. Sep 2023. Professional General Transcriptionist Certificate. Completed 80-hour training in transcription techniques and industry standards.", "The Open Window Institute. 2016 - 2020. Film&TV: Specialization in Cinematography. Centurion, Gauteng. Specialized training in cinematography, video editing, sound design, animation, set design, and scriptwriting.", "Die Hoërskool Menlopark. 2015. National Senior Certificate (NSC). Pretoria, Gauteng. Afrikaans Home Language, English 1st Additional Language, French 2nd Additional Language, Engineering Graphics and Design, Design, Visual Arts, Mathematics."],
-  "project highlights": ["Code with Malie. Oct 2024. HTML, CSS, JavaScript, Wordpress, and SEO. Founded a personal blog to document and share my journey in learning to code, featuring blog posts on front-end development, coding resources, and motivational insights for new programmers. Created and manage social media profiles on TikTok, Instagram, Facebook, and YouTube, growing an audience of 1,800+ followers on TikTok and engaging with aspiring developers. Built a growing email subscriber list for my blog, nurturing an engaged community of learners. Produce content on coding tips, finding scholarships, job hunting strategies, and career advice, helping others break into tech. Skilled in SEO optimization, content creation, and audience engagement, driving blog traffic and social media reach. Currently rebuilding my portfolio website and updating projects to integrate with Code with Malie for a seamless developer showcase. Some projects are hosted on Netlify but not yet fully connected.", "Weather App with News Integration. Sep 2024. HTML, CSS, JavaScript, and React. Rebuilt the weather app using React and API integration, implementing live news headlines and weather forecasts for a seamless user experience. Working towards implementing user authentication and basic data management features.", "Weather App. Mar 2024. HTML, CSS, and JavaScript. Built a real-time weather application that fetches live data from an API to display current and forecasted weather for any city. Designed an intuitive user interface for smooth navigation and easy access to weather updates.", "Dragon Repeller RGB Game. Feb 2024. HTML, CSS, and JavaScript. Developed an interactive RPG game featuring dynamic animations, event-driven gameplay, and real-time user interactions. Utilized JavaScript to handle event listeners, user input, and responsive UI design for an engaging experience.", "Portfolio Website. Jan 2024. HTML, CSS, and JavaScript. Designed and built a personal portfolio showcasing coding projects and technical skills with a clean, responsive UI. Implemented interactive elements to improve user engagement and navigation."],
-  "technical skills": ["HTML5 (semantic & accessible web design)", "CSS3 (responsive design)", "JavaScript (ES6+, DOM manipulation)", "React", "Redux", "Bootstrap", "SASS", "jQuery", "Node.js", "Express.js (beginner level, actively learning)", "REST APIs", "Fetch", "Axios", "Basic SQL knowledge (familiar with relational databases, queries, and data storage concepts)", "Sage Payroll (experience handling payroll-related data & reports)", "Competent in Power BI & Repsly (used for analytics and insights, relevant to HR/payroll data management)", "Git (Version control, branching, and collaboration)", "GitHub", "Basic CLI usage", "experienced with Netlify for project deployment", "Visual Studio Code", "Microsoft Office Suite", "Adobe Creative Suite (Photoshop, Illustrator, Premiere Pro)"],
-  "professional strengths" : ["Adaptability", "Debugging & Troubleshooting", "Problem-Solving", "Responsive Design Expertise", "Teamwork & Collaboration", "Clear Communication", "Continuous Learning", "Attention to Detail", "HR & Payroll Knowledge", "Time Management & Organization", "Customer-Focused Mindset"],
-  "languages" : ["English: Fluent", "Afrikaans: Native", "French: Beginner"],
-  "achievements": ["Financial Aid Recipient. 2024. Harvard edX CS50. Granted financial aid to complete Harvard’s prestigious CS50: Introduction to Computer Science course, covering algorithms, data structures, and web development fundamentals.", "Coding Scholarship Recipient. 2023. SheCodes Foundation. Awarded a full scholarship to complete SheCodes coding workshops, including Web Development, React, and Advanced JavaScript. Selected based on potential and dedication to entering the tech industry.", "Pretoria Eisteddfod Certificates. 2015. A & A+. Recognized with A and A+ certificates for artwork in the Pretoria Eisteddfod.", "Colours, 2014 & 2015. Visual Arts. Awarded Colours for outstanding achievements in Visual Arts for both years.", "Afrikaans Expo Category Winner. 2012. Media. Received Honour Colours for winning the Afrikaans Expo in the Media category."]
+  "title": "Junior Full-Stack Developer",
+  "summary": (
+    "Aspiring full-stack developer with a strong foundation in front-end technologies "
+    "(HTML, CSS, JavaScript, React) and a growing skill set in backend development "
+    "(Node.js, Express, APIs, SQL). Passionate about building efficient, responsive, and user-friendly "
+    "applications. Committed to continuous learning and open to mentorship while contributing to real-world projects."
+  ),
+
+  "experience": [
+    "Vape Junction | Jan 2024 – Present | Sales Associate | Pretoria, Gauteng | "
+    "Increased advanced vape product sales by 20% through customer education. "
+    "Recommended custom starter kits to 1000+ customers with a 90% satisfaction rate. "
+    "Fostered customer loyalty with a 30% rise in repeat visits through personalized service.",
+
+    "Infinity Times Infinity Productions | Oct 2023 – Dec 2023 | Videographer & Editor | Pretoria, Gauteng | "
+    "Produced highlight and full-length wedding films with a 95% client satisfaction rate. "
+    "Utilized multi-camera setups to improve storytelling, generating a 20% increase in referral business. "
+    "Delivered high-quality edits within tight deadlines, boosting positive client reviews.",
+
+    "PUC Marketing | Jan 2021 – Aug 2023 | Office Administrator & Data Analyst | Remote across SA | "
+    "Implemented data systems to streamline reporting and increase improvement insights by 10%. "
+    "Supported 200+ team members with efficient data handling. "
+    "Managed payroll, travel bookings, and communication for executive teams, improving workflow by 15%.",
+
+    "Visual Impact | Jan 2020 – Feb 2020 | Rentals Intern | Johannesburg, Gauteng | "
+    "Prepared and maintained film equipment for rentals. Ensured client readiness through gear tests and tutorials. "
+    "Documented and coordinated repair processes, maintaining equipment quality."
+  ],
+
+  "education": [
+    "Harvard edX | In Progress | CS50: Introduction to Computer Science | Focused on C, Python, SQL, web dev fundamentals, and algorithms.",
+    "freeCodeCamp | Aug 2024 | Data Visualization Certification | Created interactive charts with D3.js and APIs.",
+    "SheCodes | Sep 2024 | React Development Certificate | Built responsive React apps with API integration.",
+    "freeCodeCamp | May 2024 | Front End Libraries Certification | Learned React, Redux, Bootstrap, Sass.",
+    "SheCodes | Apr 2024 | Web Development Certificate | Deepened ES6, animations, and API calls.",
+    "freeCodeCamp | Mar 2024 | JavaScript Algorithms & Data Structures | Focused on DOM manipulation, ES6, regex.",
+    "SheCodes | Feb 2024 | Coding Basics | Foundations in HTML5, CSS3, and JavaScript.",
+    "freeCodeCamp | Jan 2024 | Responsive Web Design Certification | Developed responsive layouts using HTML & CSS.",
+    "Type Whizz | Sep 2023 | Professional Transcription Certificate | Mastered audio typing and editing best practices.",
+    "The Open Window Institute | 2016–2020 | BA in Film & TV, Cinematography | Specialized in visual storytelling, sound design, and post-production.",
+    "Die Hoërskool Menlopark | 2015 | National Senior Certificate (NSC) | Focus on Visual Arts, Design, and STEM."
+  ],
+
+  "project_highlights": [
+    "Code with Malie Blog | Oct 2024 | HTML, CSS, JavaScript, WordPress, SEO | "
+    "Built a personal blog to share coding insights and resources. "
+    "Managed a multi-platform content strategy growing TikTok to 1800+ followers. "
+    "Produced SEO-optimized posts to boost site visibility and build a community of learners.",
+
+    "Weather App with News | Sep 2024 | React, APIs | "
+    "Integrated live weather data and news headlines into a single-page React app. "
+    "Implemented state management and dynamic UI updates.",
+
+    "Classic Weather App | Mar 2024 | JavaScript, HTML, CSS | "
+    "Built a real-time weather forecast site fetching data from OpenWeather API. "
+    "Focused on clean UI, responsive design, and user accessibility.",
+
+    "Dragon Repeller Game | Feb 2024 | JavaScript, HTML, CSS | "
+    "Created an interactive RPG-style game with animations, event-driven logic, and responsive UI elements.",
+
+    "Portfolio Website | Jan 2024 | HTML, CSS, JavaScript | "
+    "Developed a responsive personal website to showcase projects and skills. "
+    "Includes interactive features and GitHub project links."
+  ],
+
+  "technical_skills": [
+    "HTML5 (semantic & accessible web design)",
+    "CSS3 (Flexbox, Grid, responsive layouts)",
+    "JavaScript (ES6+, DOM manipulation, fetch/AJAX)",
+    "React (components, hooks, state management)",
+    "Redux (basic)",
+    "Bootstrap & Sass",
+    "jQuery",
+    "Node.js (beginner)",
+    "Express.js (basic backend routing & middleware)",
+    "REST APIs (Fetch, Axios)",
+    "SQL (basic queries & data structures)",
+    "Git & GitHub (version control, branching)",
+    "CLI (basic terminal commands)",
+    "Netlify (project deployment)",
+    "Visual Studio Code",
+    "Microsoft Office (Word, Excel, PowerPoint)",
+    "Power BI & Repsly (data analytics & visualization)",
+    "Adobe Creative Suite (Photoshop, Illustrator, Premiere Pro)",
+    "Sage Payroll (admin & HR reporting experience)"
+  ],
+
+  "professional_strengths": [
+    "Adaptability",
+    "Problem Solving",
+    "Debugging & Troubleshooting",
+    "Responsive Design",
+    "Teamwork & Collaboration",
+    "Communication Skills",
+    "Attention to Detail",
+    "Time Management",
+    "Continuous Learning",
+    "Customer Experience Mindset",
+    "HR & Payroll Workflow Understanding"
+  ],
+
+  "languages": [
+    "English: Fluent",
+    "Afrikaans: Native",
+    "French: Basic"
+  ],
+
+  "achievements": [
+    "Harvard edX CS50 Financial Aid Recipient | 2024 | Received financial assistance for top-tier CS education.",
+    "SheCodes Foundation Scholarship Winner | 2023 | Awarded full scholarship for coding bootcamps in Web Dev & React.",
+    "Pretoria Eisteddfod | 2015 | Received A & A+ awards for visual art pieces.",
+    "Visual Arts Colours | 2014 & 2015 | Recognized for outstanding achievement in arts.",
+    "Afrikaans Expo Winner | 2012 | Took 1st place in Media category."
+  ]
 }
+
+import re
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+def get_clean_resume_text(profile=USER_PROFILE):
+    # Flatten dictionary into a big string
+    combined_text = ""
+
+    for key, value in profile.items():
+        if isinstance(value, str):
+            combined_text += value + " "
+        elif isinstance(value, list):
+            for item in value:
+                combined_text += item + " "
+
+    # Normalize text
+    text = combined_text.lower()
+    text = re.sub(r'[^a-z\s]', '', text)  # remove punctuation
+    tokens = nltk.word_tokenize(text)
+    tokens = [word for word in tokens if word not in stopwords.words('english')]
+
+    lemmatizer = WordNetLemmatizer()
+    tokens = [lemmatizer.lemmatize(word) for word in tokens]
+
+    return " ".join(tokens)
